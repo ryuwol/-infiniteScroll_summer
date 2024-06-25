@@ -32,6 +32,7 @@ public class Var : MonoBehaviour
         if (ran)
         {
             Randominfo(500);
+            SaveInfo();
         }
     }
 
@@ -82,7 +83,19 @@ public class Var : MonoBehaviour
     {
         return jobs[Random.Range(0, jobs.Count)];
     }
-
+    void SaveInfo()
+    {
+        StringBuilder peopleContent = new StringBuilder();
+        peopleContent.AppendLine("name, gender, hobby, age, job");
+        foreach (var info in info)
+        {
+            string line = $"{info.name},{info.gender},{info.hobby},{info.age},{info.job}";
+            peopleContent.AppendLine(line);
+        }
+        string filePath = Path.Combine(Application.dataPath, "PersonInfo.csv");
+        File.WriteAllText(filePath, peopleContent.ToString());
+        Debug.Log(filePath);
+    }
     public void Start()
     {
         
