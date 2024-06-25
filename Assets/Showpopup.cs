@@ -10,9 +10,14 @@ public class Showpopup : MonoBehaviour
 
     public void Click(Info info)
     {
-        PopupText.GetComponent<TextMeshProUGUI>().text = info.name;
+        PopupText.GetComponent<TextMeshProUGUI>().text = "이름 : " + info.name + "\n" +  
+                                                         "나이 : " + info.age + "\n" +
+                                                         "성별 : " + info.gender + "\n" +
+                                                         "취미 : " + info.hobby + "\n" + 
+                                                         "직업 : " + info.job;
         Popup.SetActive(true);
     }
+    
     // Start is called before the first frame update
     void Start()
     {
