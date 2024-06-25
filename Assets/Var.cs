@@ -29,7 +29,7 @@ public class Var : MonoBehaviour
     public GameObject Content;
     public void Awake()
     {
-        if (ran)
+        if (ran==true)
         {
             Randominfo(500);
             SaveInfo();
@@ -94,7 +94,6 @@ public class Var : MonoBehaviour
         }
         string filePath = Path.Combine(Application.dataPath, "PersonInfo.csv");
         File.WriteAllText(filePath, peopleContent.ToString());
-        Debug.Log(filePath);
     }
     public void Start()
     {
