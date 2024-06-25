@@ -10,7 +10,6 @@ public class PersonInfo : MonoBehaviour
     private void Start()
     {
         Text.GetComponent<TextMeshProUGUI>().text = Info.name;
-        Debug.Log(Info.name);
     }
     public void Click()
     {
