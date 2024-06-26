@@ -439,7 +439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: []
-  ran: 0
+  ran: 1
   genders:
   - "\uC5EC"
   - "\uB0A8"
