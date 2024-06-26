@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEditor;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 [System.Serializable]
@@ -17,6 +19,7 @@ public class Info
 
 public class Var : MonoBehaviour
 {
+    
     public List<Info> info = new List<Info>();
     public bool ran;
     public List<string> genders = new List<string>();
@@ -29,11 +32,13 @@ public class Var : MonoBehaviour
     public GameObject Content;
     public void Awake()
     {
-        if (ran==true)
+        if (ran == true)
         {
             Randominfo(500);
             SaveInfo();
         }
+        else
+            LoadInfo();
     }
 
     void Randominfo(int num)
@@ -89,11 +94,39 @@ public class Var : MonoBehaviour
         peopleContent.AppendLine("name, gender, hobby, age, job");
         foreach (var info in info)
         {
-            string line = $"{info.name},{info.gender},{info.hobby},{info.age},{info.job}";
-            peopleContent.AppendLine(line);
+            string infoline = $"{info.name},{info.gender},{info.hobby},{info.age},{info.job}";
+            peopleContent.AppendLine(infoline);
         }
         string filePath = Path.Combine(Application.dataPath, "PersonInfo.csv");
         File.WriteAllText(filePath, peopleContent.ToString());
+    }
+    void LoadInfo()
+    {
+        string filePath = Path.Combine(Application.dataPath, "PersonInfo.csv");
+        info.Clear();
+        string[] Infocsv = File.ReadAllLines(filePath);
+        bool isFirstLine = true;
+
+        foreach (var csv in Infocsv)
+        {
+            if (isFirstLine)
+            {
+                isFirstLine = false;
+                continue;
+            }
+            string[] values = csv.Split(',');
+            Info newInfo = new Info();
+            newInfo.name = values[0];
+            newInfo.gender = values[1];
+            newInfo.hobby = values[2];
+            newInfo.age = int.Parse(values[3]);
+            newInfo.job = values[4];
+
+            info.Add(newInfo);
+            GameObject newButton = Instantiate(Button);
+            newButton.transform.SetParent(Content.transform);
+            newButton.GetComponent<PersonInfo>().Info = newInfo;
+        }
     }
     public void Start()
     {
