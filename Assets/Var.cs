@@ -34,30 +34,29 @@ public class Var : MonoBehaviour
     {
         if (ran == true)
         {
-            Randominfo(500);
-            SaveInfo();
+            SaveInfo(500);
         }
         else
             LoadInfo();
     }
 
-    void Randominfo(int num)
-    {
-        info.Clear();
-        for (int i = 0; i < num; i++)
-        {
-            Info newInfo = new Info();
-            newInfo.gender = RandomGender();
-            newInfo.name = RandomName(newInfo.gender);
-            newInfo.hobby = RandomHobby();
-            newInfo.age = Random.Range(20, 61);
-            newInfo.job = RandomJob();
-            info.Add(newInfo);
-            GameObject newButton = Instantiate(Button);
-            newButton.transform.SetParent(Content.transform);
-            newButton.GetComponent<PersonInfo>().Info = newInfo;
-        }
-    }
+    //void Randominfo(int num)
+    //{
+    //    info.Clear();
+    //    for (int i = 0; i < num; i++)
+    //    {
+    //        Info newInfo = new Info();
+    //        newInfo.gender = RandomGender();
+    //        newInfo.name = RandomName(newInfo.gender);
+    //        newInfo.hobby = RandomHobby();
+    //        newInfo.age = Random.Range(20, 61);
+    //        newInfo.job = RandomJob();
+    //        info.Add(newInfo);
+    //        GameObject newButton = Instantiate(Button);
+    //        newButton.transform.SetParent(Content.transform);
+    //        newButton.GetComponent<PersonInfo>().Info = newInfo;
+    //    }
+    //}
 
     string RandomGender()
     {
@@ -88,10 +87,24 @@ public class Var : MonoBehaviour
     {
         return jobs[Random.Range(0, jobs.Count)];
     }
-    void SaveInfo()
+    void SaveInfo(int num)
     {
         StringBuilder peopleContent = new StringBuilder();
         peopleContent.AppendLine("name, gender, hobby, age, job");
+        info.Clear();
+        for (int i = 0; i < num; i++)
+        {
+            Info newInfo = new Info();
+            newInfo.gender = RandomGender();
+            newInfo.name = RandomName(newInfo.gender);
+            newInfo.hobby = RandomHobby();
+            newInfo.age = Random.Range(20, 61);
+            newInfo.job = RandomJob();
+            info.Add(newInfo);
+            GameObject newButton = Instantiate(Button);
+            newButton.transform.SetParent(Content.transform);
+            newButton.GetComponent<PersonInfo>().Info = newInfo;
+        }
         foreach (var info in info)
         {
             string infoline = $"{info.name},{info.gender},{info.hobby},{info.age},{info.job}";
