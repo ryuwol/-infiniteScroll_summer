@@ -115,12 +115,12 @@ public class Var : MonoBehaviour
             newInfo.hobby = values[2];
             newInfo.age = int.Parse(values[3]);
             newInfo.job = values[4];
-
             info.Add(newInfo);
             GameObject newButton = Instantiate(Button);
             newButton.transform.SetParent(Content.transform);
             newButton.GetComponent<PersonInfo>().Info = newInfo;
         }
+            
     }
     public void Start()
     {
