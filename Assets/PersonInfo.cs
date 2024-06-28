@@ -9,6 +9,7 @@ public class PersonInfo : MonoBehaviour
     public Info Info;
     private void Start()
     {
+        this.gameObject.name = Info.name;
         Text.GetComponent<TextMeshProUGUI>().text = Info.name;
     }
     public void Click()

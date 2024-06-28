@@ -39,25 +39,6 @@ public class Var : MonoBehaviour
         else
             LoadInfo();
     }
-
-    //void Randominfo(int num)
-    //{
-    //    info.Clear();
-    //    for (int i = 0; i < num; i++)
-    //    {
-    //        Info newInfo = new Info();
-    //        newInfo.gender = RandomGender();
-    //        newInfo.name = RandomName(newInfo.gender);
-    //        newInfo.hobby = RandomHobby();
-    //        newInfo.age = Random.Range(20, 61);
-    //        newInfo.job = RandomJob();
-    //        info.Add(newInfo);
-    //        GameObject newButton = Instantiate(Button);
-    //        newButton.transform.SetParent(Content.transform);
-    //        newButton.GetComponent<PersonInfo>().Info = newInfo;
-    //    }
-    //}
-
     string RandomGender()
     {
         return genders[Random.Range(0, genders.Count)];
