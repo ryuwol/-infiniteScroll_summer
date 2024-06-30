@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Build.Content;
 using UnityEngine;
@@ -19,9 +20,10 @@ public class Info
 
 public class Var : MonoBehaviour
 {
-    
+    Info Info;
     public List<Info> info = new List<Info>();
     public bool ran;
+    PersonInfo person;
     public List<string> genders = new List<string>();
     public List<string> firstnames = new List<string>();
     public List<string> hobbies = new List<string>();
@@ -122,8 +124,117 @@ public class Var : MonoBehaviour
         }
             
     }
-    public void Start()
+    public void buttongen_gen(int num)
     {
-        
+        if (num == -1)
+            buttongen();
+        else
+        {
+            DeleteAllButtons();
+            string str = genders[num];
+            for (int i = 0; i < info.Count; i++)
+            {
+                if (info[i].gender == str)
+                {
+                Info newInfo = new Info();
+                newInfo.name = info[i].name;
+                newInfo.gender = info[i].gender;
+                newInfo.hobby = info[i].hobby;
+                newInfo.age = info[i].age;
+                newInfo.job = info[i].job;
+                GameObject newButton = Instantiate(Button);
+                newButton.transform.SetParent(Content.transform, false);
+                newButton.GetComponent<PersonInfo>().Info = newInfo;
+                }
+            }
+        }
+    }
+    public void buttongen()
+    {
+        DeleteAllButtons();
+        for (int i = 0;i < 500;i++)
+        { 
+            Info newInfo = new Info();
+            newInfo.name = info[i].name;
+            newInfo.gender = info[i].gender;
+            newInfo.hobby = info[i].hobby;
+            newInfo.age = info[i].age;
+            newInfo.job = info[i].job;
+            GameObject newButton = Instantiate(Button);
+            newButton.transform.SetParent(Content.transform, false);
+            newButton.GetComponent<PersonInfo>().Info = newInfo;
+        }
+    }
+    public void buttongen_job(int num)
+    {
+        if (num == -1)
+            buttongen();
+        else
+        {
+            DeleteAllButtons();
+            string str = jobs[num];
+            for (int i = 0; i < info.Count; i++)
+            {
+                if (info[i].job == str)
+                {
+                    Info newInfo = new Info();
+                    newInfo.name = info[i].name;
+                    newInfo.gender = info[i].gender;
+                    newInfo.hobby = info[i].hobby;
+                    newInfo.age = info[i].age;
+                    newInfo.job = info[i].job;
+                    GameObject newButton = Instantiate(Button);
+                    newButton.transform.SetParent(Content.transform, false);
+                    newButton.GetComponent<PersonInfo>().Info = newInfo;
+                }
+            }
+        }
+    }
+
+
+    public void buttongen_hobby(int num)
+    {
+        if (num == -1)
+            buttongen();
+        else
+        {
+            DeleteAllButtons();
+            string str = hobbies[num];
+            for (int i = 0; i < info.Count; i++)
+            {
+                if (info[i].hobby == str)
+                {
+                    Info newInfo = new Info();
+                    newInfo.name = info[i].name;
+                    newInfo.gender = info[i].gender;
+                    newInfo.hobby = info[i].hobby;
+                    newInfo.age = info[i].age;
+                    newInfo.job = info[i].job;
+                    GameObject newButton = Instantiate(Button);
+                    newButton.transform.SetParent(Content.transform, false);
+                    newButton.GetComponent<PersonInfo>().Info = newInfo;
+                }
+            }
+        }
+    }
+
+    private void DeleteAllButtons()
+    {
+        PersonInfo[] personInfos = FindObjectsOfType<PersonInfo>();
+        foreach (var personInfo in personInfos)
+        {
+            Destroy(personInfo.gameObject);
+        }
+    }
+    public void findname(string str)
+    {
+        PersonInfo[] personInfos = FindObjectsOfType<PersonInfo>();
+        foreach (var personInfo in personInfos)
+        {
+            if (!personInfo.Info.name.Contains(str))
+            {
+                Destroy(personInfo.gameObject);
+            }
+        }
     }
 }
