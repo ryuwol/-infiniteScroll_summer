@@ -9,9 +9,9 @@ public class Select : MonoBehaviour
 {
     public GameObject detail;
     [SerializeField] TMP_Text text;
-    public void OnDropDownEvent(TMP_Dropdown index)
+    public void OnDropDownEvent(int num)
     {
-        detail.GetComponent<SelectDetail>().inputvalue(index.value);
+        detail.GetComponent<SelectDetail>().inputvalue(num);
     }
     // Start is called before the first frame update
     void Start()
