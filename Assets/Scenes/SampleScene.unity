@@ -164,7 +164,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 350, y: 150}
+  m_CellSize: {x: 1800, y: 150}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -1008,8 +1008,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -25, y: 0}
-  m_SizeDelta: {x: 1850, y: 1040}
+  m_AnchoredPosition: {x: -25, y: 3.1849}
+  m_SizeDelta: {x: 1850, y: 1046.3699}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &310942752
 MonoBehaviour:
@@ -1109,7 +1109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: []
-  ran: 0
+  subinfo: []
+  scrollbar: {fileID: 1777926901}
+  ran: 1
   genders:
   - "\uC5EC"
   - "\uB0A8"
@@ -1168,7 +1170,7 @@ MonoBehaviour:
   - "\uC544\uD2B8"
   - "\uD504\uB85C\uADF8\uB798\uBA38"
   - "\uAE30\uD68D"
-  Button: {fileID: 5807491745535737895, guid: a535a6e9c833fc342be8782ef96d78dc, type: 3}
+  Button: {fileID: 7535485430099978106, guid: a535a6e9c833fc342be8782ef96d78dc, type: 3}
   Content: {fileID: 10101689}
 --- !u!1 &411387587
 GameObject:

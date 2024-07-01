@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Info
@@ -16,12 +16,27 @@ public class Info
     public string hobby;
     public int age;
     public string job;
+
+    public Info()
+    {
+        
+    }
+    public Info(Info i)
+    {
+        name = i.name;
+        gender = i.gender;
+        hobby = i.hobby;
+        age = i.age;
+        job = i.job;
+    }
 }
 
 public class Var : MonoBehaviour
 {
     Info Info;
     public List<Info> info = new List<Info>();
+    public List<Info> subinfo = new List<Info>();
+    public Scrollbar scrollbar;
     public bool ran;
     PersonInfo person;
     public List<string> genders = new List<string>();
@@ -32,14 +47,58 @@ public class Var : MonoBehaviour
     public List<string> jobs = new List<string>();
     public GameObject Button;
     public GameObject Content;
+    private int max = 10;
+    private int state = 0;
+    private float timer = 0f;
+    private float delay = 0.1f;
+    private bool isLoading = false;
+    bool isFirstLine = true;
+    int a=0;
+    private void Update()
+    {
+        if (isFirstLine==false)
+        {
+            isFirstLine = true;
+            for (int i = 0; i < 10; i++)
+            {
+                GameObject newButton = Instantiate(Button);
+                newButton.transform.SetParent(Content.transform, false);
+                newButton.GetComponent<PersonInfo>().Info = subinfo[i];
+            }
+        }
+        if (isLoading)
+        {
+            timer += Time.deltaTime;
+            if (timer >= delay)
+            {
+                timer = 0f;
+                isLoading = false;
+            }
+        }
+        if (scrollbar.value <= 0.00001f && !isLoading)
+        {
+            state = max;
+            max += 10;
+            if (max < subinfo.Count)
+            {
+                for (; state < max; state++)
+                {
+                    GameObject newButton = Instantiate(Button);
+                    newButton.transform.SetParent(Content.transform, false);
+                    newButton.GetComponent<PersonInfo>().Info = subinfo[state];
+                }
+                isLoading = true;
+            }
+        }
+    }
     public void Awake()
     {
         if (ran == true)
-        {
             SaveInfo(500);
-        }
         else
+        { 
             LoadInfo();
+        }
     }
     string RandomGender()
     {
@@ -77,6 +136,7 @@ public class Var : MonoBehaviour
         info.Clear();
         for (int i = 0; i < num; i++)
         {
+            isFirstLine = false;
             Info newInfo = new Info();
             newInfo.gender = RandomGender();
             newInfo.name = RandomName(newInfo.gender);
@@ -84,9 +144,7 @@ public class Var : MonoBehaviour
             newInfo.age = Random.Range(20, 61);
             newInfo.job = RandomJob();
             info.Add(newInfo);
-            GameObject newButton = Instantiate(Button);
-            newButton.transform.SetParent(Content.transform);
-            newButton.GetComponent<PersonInfo>().Info = newInfo;
+            subinfo.Add(newInfo);
         }
         foreach (var info in info)
         {
@@ -101,8 +159,6 @@ public class Var : MonoBehaviour
         string filePath = Path.Combine(Application.dataPath, "PersonInfo.csv");
         info.Clear();
         string[] Infocsv = File.ReadAllLines(filePath);
-        bool isFirstLine = true;
-
         foreach (var csv in Infocsv)
         {
             if (isFirstLine)
@@ -118,11 +174,8 @@ public class Var : MonoBehaviour
             newInfo.age = int.Parse(values[3]);
             newInfo.job = values[4];
             info.Add(newInfo);
-            GameObject newButton = Instantiate(Button);
-            newButton.transform.SetParent(Content.transform);
-            newButton.GetComponent<PersonInfo>().Info = newInfo;
+            subinfo.Add(newInfo);
         }
-            
     }
     public void buttongen_gen(int num)
     {
@@ -130,40 +183,31 @@ public class Var : MonoBehaviour
             buttongen();
         else
         {
+            a = 0;
             DeleteAllButtons();
+            subinfo.Clear();
             string str = genders[num];
+            subinfo.Clear();
             for (int i = 0; i < info.Count; i++)
             {
                 if (info[i].gender == str)
                 {
-                Info newInfo = new Info();
-                newInfo.name = info[i].name;
-                newInfo.gender = info[i].gender;
-                newInfo.hobby = info[i].hobby;
-                newInfo.age = info[i].age;
-                newInfo.job = info[i].job;
-                GameObject newButton = Instantiate(Button);
-                newButton.transform.SetParent(Content.transform, false);
-                newButton.GetComponent<PersonInfo>().Info = newInfo;
+                    Info newInfo = new Info(info[i]);
+                    subinfo.Add(newInfo);
+                    Debug.Log(subinfo[subinfo.Count - 1].name);
+                    a++;
                 }
             }
+            scrollbar.value = 1;
+            isFirstLine = false;
         }
     }
     public void buttongen()
     {
         DeleteAllButtons();
-        for (int i = 0;i < 500;i++)
-        { 
-            Info newInfo = new Info();
-            newInfo.name = info[i].name;
-            newInfo.gender = info[i].gender;
-            newInfo.hobby = info[i].hobby;
-            newInfo.age = info[i].age;
-            newInfo.job = info[i].job;
-            GameObject newButton = Instantiate(Button);
-            newButton.transform.SetParent(Content.transform, false);
-            newButton.GetComponent<PersonInfo>().Info = newInfo;
-        }
+        subinfo.Clear();
+        scrollbar.value = 1;
+        LoadInfo();
     }
     public void buttongen_job(int num)
     {
@@ -173,21 +217,17 @@ public class Var : MonoBehaviour
         {
             DeleteAllButtons();
             string str = jobs[num];
+            subinfo.Clear();
             for (int i = 0; i < info.Count; i++)
             {
                 if (info[i].job == str)
                 {
-                    Info newInfo = new Info();
-                    newInfo.name = info[i].name;
-                    newInfo.gender = info[i].gender;
-                    newInfo.hobby = info[i].hobby;
-                    newInfo.age = info[i].age;
-                    newInfo.job = info[i].job;
-                    GameObject newButton = Instantiate(Button);
-                    newButton.transform.SetParent(Content.transform, false);
-                    newButton.GetComponent<PersonInfo>().Info = newInfo;
+                    Info newInfo = new Info(info[i]);
+                    subinfo.Add(newInfo);
                 }
             }
+            scrollbar.value = 1;
+            isFirstLine = false;
         }
     }
 
@@ -200,21 +240,17 @@ public class Var : MonoBehaviour
         {
             DeleteAllButtons();
             string str = hobbies[num];
+            subinfo.Clear();
             for (int i = 0; i < info.Count; i++)
             {
                 if (info[i].hobby == str)
                 {
-                    Info newInfo = new Info();
-                    newInfo.name = info[i].name;
-                    newInfo.gender = info[i].gender;
-                    newInfo.hobby = info[i].hobby;
-                    newInfo.age = info[i].age;
-                    newInfo.job = info[i].job;
-                    GameObject newButton = Instantiate(Button);
-                    newButton.transform.SetParent(Content.transform, false);
-                    newButton.GetComponent<PersonInfo>().Info = newInfo;
+                    Info newInfo = new Info(info[i]);
+                    subinfo.Add(newInfo);
                 }
             }
+            scrollbar.value = 1;
+            isFirstLine = false;
         }
     }
 
