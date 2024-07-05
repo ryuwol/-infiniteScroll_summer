@@ -107,11 +107,11 @@ public class Var : MonoBehaviour
     string RandomName(string gender)
     {
         string first = firstnames[Random.Range(0, firstnames.Count)];
-        if (gender == "¿©")
+        if (gender == "ì—¬")
         {
             return first + femaleNames[Random.Range(0, femaleNames.Count)];
         }
-        else if (gender == "³²")
+        else if (gender == "ë‚¨")
         {
             return first + maleNames[Random.Range(0, maleNames.Count)];
         }
